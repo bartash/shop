@@ -1,3 +1,5 @@
+import csv
+import locale
 from dataclasses import dataclass
 
 @dataclass
@@ -35,6 +37,7 @@ def read_wondrous_items(filename):
   Returns:
       A list of WondrousItem objects.
   """
+  locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
   items = []
   with open(filename, 'r') as csvfile:
     # Skip the header row
@@ -44,8 +47,8 @@ def read_wondrous_items(filename):
     for row in reader:
       # Convert values to appropriate types
       name, slot, description, view_desc = row[0], row[1], row[2], row[3]
-      price = int(row[4]) if row[4] else None
-      half_price = int(row[5]) if row[5] else None
+      price = locale.atoi(row[4]) if row[4] else None
+      half_price = locale.atoi(row[5]) if row[5] else None
       upgrade = row[6]
       cl = int(row[7])
       weight = float(row[8])
